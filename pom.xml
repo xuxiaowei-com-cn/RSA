@@ -8,6 +8,12 @@
     <artifactId>rsa</artifactId>
     <version>0.0.1-SNAPSHOT</version>
 
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+    </properties>
+
     <dependencies>
 
         <!-- Apache Commons Codec 软件包包含各种格式的简单编码器和解码器，如Base64和Hexadecimal。 -->
