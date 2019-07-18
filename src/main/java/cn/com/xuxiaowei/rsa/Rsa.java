@@ -21,7 +21,6 @@ import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
-import javax.validation.constraints.NotNull;
 import java.security.*;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
@@ -116,7 +115,7 @@ public class Rsa {
      * @see #publicKey(byte[], byte[], int)
      * @see #privateKeyDecryptByte(byte[], byte[]) 对应解密时使用
      */
-    public static byte[] publicKeyEncryptByte(@NotNull byte[] publicKeyByte, @NotNull byte[] dataByte) throws NoSuchAlgorithmException,
+    public static byte[] publicKeyEncryptByte(byte[] publicKeyByte, byte[] dataByte) throws NoSuchAlgorithmException,
             InvalidKeySpecException, NoSuchPaddingException, InvalidKeyException,
             BadPaddingException, IllegalBlockSizeException {
         return publicKey(publicKeyByte, dataByte, Cipher.ENCRYPT_MODE);
@@ -144,7 +143,7 @@ public class Rsa {
      * @see #privateKey(byte[], byte[], int)
      * @see #publicKeyEncryptByte(byte[], byte[]) 对应加密时使用
      */
-    public static byte[] privateKeyDecryptByte(@NotNull byte[] privateKeyByte, @NotNull byte[] dataByte) throws NoSuchAlgorithmException,
+    public static byte[] privateKeyDecryptByte(byte[] privateKeyByte, byte[] dataByte) throws NoSuchAlgorithmException,
             InvalidKeySpecException, NoSuchPaddingException, InvalidKeyException, BadPaddingException,
             IllegalBlockSizeException {
         return privateKey(privateKeyByte, dataByte, Cipher.DECRYPT_MODE);
@@ -171,7 +170,7 @@ public class Rsa {
      * @see #privateKey(byte[], byte[], int)
      * @see #privateKeyDecrypt(String, String) 对应解密时使用
      */
-    public static String publicKeyEncrypt(@NotNull String publicKey, @NotNull String data) throws NoSuchAlgorithmException,
+    public static String publicKeyEncrypt(String publicKey, String data) throws NoSuchAlgorithmException,
             InvalidKeySpecException, NoSuchPaddingException, InvalidKeyException,
             BadPaddingException, IllegalBlockSizeException {
         return Base64.encodeBase64String(publicKeyEncryptByte(Base64.decodeBase64(publicKey), data.getBytes()));
@@ -198,7 +197,7 @@ public class Rsa {
      * @see #publicKey(byte[], byte[], int)
      * @see #publicKeyEncrypt(String, String) 对应加密时使用
      */
-    public static String privateKeyDecrypt(@NotNull String privateKey, @NotNull String data) throws NoSuchAlgorithmException,
+    public static String privateKeyDecrypt(String privateKey, String data) throws NoSuchAlgorithmException,
             InvalidKeySpecException, NoSuchPaddingException, InvalidKeyException, BadPaddingException,
             IllegalBlockSizeException {
         return new String(privateKeyDecryptByte(Base64.decodeBase64(privateKey), Base64.decodeBase64(data)));
@@ -225,7 +224,7 @@ public class Rsa {
      * @see #privateKey(byte[], byte[], int)
      * @see #publicKeyDecryptByte(byte[], byte[]) 对应解密时使用
      */
-    public static byte[] privateKeyEncryptByte(@NotNull byte[] privateKeyByte, @NotNull byte[] dataByte) throws NoSuchPaddingException,
+    public static byte[] privateKeyEncryptByte(byte[] privateKeyByte, byte[] dataByte) throws NoSuchPaddingException,
             NoSuchAlgorithmException, IllegalBlockSizeException, BadPaddingException, InvalidKeyException,
             InvalidKeySpecException {
         return privateKey(privateKeyByte, dataByte, Cipher.ENCRYPT_MODE);
@@ -252,7 +251,7 @@ public class Rsa {
      * @see #publicKey(byte[], byte[], int)
      * @see #privateKeyEncryptByte(byte[], byte[]) 对应加密时使用
      */
-    public static byte[] publicKeyDecryptByte(@NotNull byte[] publicKeyByte, @NotNull byte[] dataByte) throws NoSuchPaddingException,
+    public static byte[] publicKeyDecryptByte(byte[] publicKeyByte, byte[] dataByte) throws NoSuchPaddingException,
             NoSuchAlgorithmException, IllegalBlockSizeException, BadPaddingException, InvalidKeyException,
             InvalidKeySpecException {
         return publicKey(publicKeyByte, dataByte, Cipher.DECRYPT_MODE);
@@ -279,7 +278,7 @@ public class Rsa {
      * @see #privateKey(byte[], byte[], int)
      * @see #publicKeyDecrypt(String, String) 对应解密时使用
      */
-    public static String privateKeyEncrypt(@NotNull String privateKey, @NotNull String data) throws NoSuchPaddingException,
+    public static String privateKeyEncrypt(String privateKey, String data) throws NoSuchPaddingException,
             NoSuchAlgorithmException, IllegalBlockSizeException, BadPaddingException, InvalidKeyException,
             InvalidKeySpecException {
         return Base64.encodeBase64String(privateKey(Base64.decodeBase64(privateKey), data.getBytes(), Cipher.ENCRYPT_MODE));
@@ -306,7 +305,7 @@ public class Rsa {
      * @see #publicKey(byte[], byte[], int)
      * @see #privateKeyEncrypt(String, String) 对应加密时使用
      */
-    public static String publicKeyDecrypt(@NotNull String publicKey, @NotNull String data) throws NoSuchPaddingException,
+    public static String publicKeyDecrypt(String publicKey, String data) throws NoSuchPaddingException,
             NoSuchAlgorithmException, IllegalBlockSizeException, BadPaddingException, InvalidKeyException,
             InvalidKeySpecException {
         return new String(publicKey(Base64.decodeBase64(publicKey), Base64.decodeBase64(data), Cipher.DECRYPT_MODE));
@@ -337,7 +336,7 @@ public class Rsa {
      *                                   长度限制：需要加密的数组字节数据长度 小于 (数据加密算法模块长度 / 8 - 11)
      * @see <a href="https://docs.oracle.com/javase/8/docs//technotes/guides/security/StandardNames.html#KeyFactory">KeyFactory Algorithms</a>
      */
-    private static byte[] publicKey(@NotNull byte[] publicKeyByte, @NotNull byte[] dataByte, int encryptOrDecrypt) throws NoSuchAlgorithmException,
+    private static byte[] publicKey(byte[] publicKeyByte, byte[] dataByte, int encryptOrDecrypt) throws NoSuchAlgorithmException,
             InvalidKeySpecException, NoSuchPaddingException, InvalidKeyException,
             BadPaddingException, IllegalBlockSizeException {
 
@@ -378,7 +377,7 @@ public class Rsa {
      *                                   长度限制：需要解密的数组字节数据长度 小于 (数据加密算法模块长度 / 8 - 11)
      * @see <a href="https://docs.oracle.com/javase/8/docs//technotes/guides/security/StandardNames.html#KeyFactory">KeyFactory Algorithms</a>
      */
-    private static byte[] privateKey(@NotNull byte[] privateKeyByte, @NotNull byte[] dataByte, int encryptOrDecrypt) throws NoSuchAlgorithmException,
+    private static byte[] privateKey(byte[] privateKeyByte, byte[] dataByte, int encryptOrDecrypt) throws NoSuchAlgorithmException,
             InvalidKeySpecException, NoSuchPaddingException, InvalidKeyException, BadPaddingException,
             IllegalBlockSizeException {
 
