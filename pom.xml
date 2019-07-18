@@ -43,15 +43,4 @@
 
     </dependencies>
 
-    <distributionManagement>
-        <repository>
-            <id>rdc-releases</id>
-            <url>https://repo.rdc.aliyun.com/repository/29849-release-f18ExV/</url>
-        </repository>
-        <snapshotRepository>
-            <id>rdc-snapshots</id>
-            <url>https://repo.rdc.aliyun.com/repository/29849-snapshot-iopfbE/</url>
-        </snapshotRepository>
-    </distributionManagement>
-
 </project>
