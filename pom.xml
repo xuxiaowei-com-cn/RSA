@@ -72,4 +72,9 @@
         <developerConnection>http://xuxiaowei.com.cn</developerConnection>
     </scm>
 
+    <issueManagement>
+        <system>Github</system>
+        <url>https://github.com/xuxiaowei-com-cn/RSA/issues</url>
+    </issueManagement>
+
 </project>
