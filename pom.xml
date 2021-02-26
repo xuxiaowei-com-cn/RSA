@@ -8,6 +8,7 @@
     <artifactId>rsa</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <description>RSA工具。</description>
+    <url>https://github.com/xuxiaowei-com-cn/RSA</url>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
