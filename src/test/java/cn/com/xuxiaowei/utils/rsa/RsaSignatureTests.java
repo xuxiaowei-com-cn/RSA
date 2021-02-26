@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.com.xuxiaowei.rsa;
+package cn.com.xuxiaowei.utils.rsa;
 
 import org.apache.commons.codec.binary.Base64;
 import org.junit.Test;
@@ -21,25 +21,20 @@ import org.junit.Test;
 import java.util.Arrays;
 
 /**
- * RSA 非对称加密 测试类
+ * RSA 非对称加密签名 测试类
  *
  * @author xuxiaowei
  * @since 0.0.1
  */
-public class RsaTests {
+public class RsaSignatureTests {
 
     /**
      * 需要加密的数据
      */
     private final String DATA = "今天中午吃啥呢？？？";
 
-    /**
-     * 公钥加密，私钥解密
-     * <p>
-     * String 类型
-     */
     @Test
-    public void publicKeyEncryptPrivateKeyDecrypt() throws Exception {
+    public void privateKeySignBytePublicKeyVerifySign() throws Exception {
 
         Rsa.StringKey stringKey = Rsa.getStringKey();
 
@@ -49,20 +44,25 @@ public class RsaTests {
         String publicKeyEncrypt = Rsa.publicKeyEncrypt(publicKey, DATA);
         String privateKeyDecrypt = Rsa.privateKeyDecrypt(privateKey, publicKeyEncrypt);
 
+        String signByte = RsaSignature.sign(privateKey, publicKeyEncrypt);
+
+        boolean publicKeyVerifySign = RsaSignature.verifySign(publicKey, publicKeyEncrypt, signByte);
+
         System.err.println("公钥：" + publicKey);
         System.err.println("私钥：" + privateKey);
         System.err.println("公钥加密前的数据：" + DATA);
         System.err.println("私钥解密后的数据：" + privateKeyDecrypt);
         System.err.println();
+        System.err.println("私钥签名：\t\t" + signByte);
+        System.err.println("公钥验证签名：\t" + publicKeyVerifySign);
+        System.err.println();
     }
 
     /**
-     * 公钥加密，私钥解密
-     * <p>
-     * 字节数组类型
+     * 私钥签名，公钥验证签名
      */
     @Test
-    public void publicKeyEncryptPrivateKeyDecryptByte() throws Exception {
+    public void privateKeySignBytePublicKeyVerifySignByte() throws Exception {
 
         Rsa.ByteKey byteKey = Rsa.getByteKey();
 
@@ -71,6 +71,10 @@ public class RsaTests {
 
         byte[] publicKeyEncryptByte = Rsa.publicKeyEncryptByte(publicKeyByte, DATA.getBytes());
         byte[] privateKeyDecryptByte = Rsa.privateKeyDecryptByte(privateKeyByte, publicKeyEncryptByte);
+
+        byte[] signByte = RsaSignature.signByte(privateKeyByte, publicKeyEncryptByte);
+
+        boolean publicKeyVerifySign = RsaSignature.verifySignByte(publicKeyByte, publicKeyEncryptByte, signByte);
 
         System.err.println("公钥（byte）：\t" + Arrays.toString(publicKeyByte));
         System.err.println("公钥（String）：\t" + Base64.encodeBase64String(publicKeyByte));
@@ -82,56 +86,9 @@ public class RsaTests {
         System.err.println("私钥解密后的数据（byte）：\t" + Arrays.toString(privateKeyDecryptByte));
         System.err.println("私钥解密后的数据（String）：\t" + new String(privateKeyDecryptByte));
         System.err.println();
-    }
-
-    /**
-     * 私钥加密，公钥解密
-     * <p>
-     * String 类型
-     */
-    @Test
-    public void privateKeyEncryptPublicKeyDecrypt() throws Exception {
-
-        Rsa.StringKey stringKey = Rsa.getStringKey();
-
-        String publicKey = stringKey.getPublicKey();
-        String privateKey = stringKey.getPrivateKey();
-
-        String privateKeyEncrypt = Rsa.privateKeyEncrypt(privateKey, DATA);
-        String publicKeyDecrypt = Rsa.publicKeyDecrypt(publicKey, privateKeyEncrypt);
-
-        System.err.println("公钥：" + publicKey);
-        System.err.println("私钥：" + privateKey);
-        System.err.println("私钥加密前的数据：" + DATA);
-        System.err.println("公钥解密后的数据：" + publicKeyDecrypt);
-        System.err.println();
-    }
-
-    /**
-     * 私钥加密，公钥解密
-     * <p>
-     * 字节数组类型
-     */
-    @Test
-    public void privateKeyEncryptPublicKeyDecryptByte() throws Exception {
-
-        Rsa.ByteKey byteKey = Rsa.getByteKey();
-
-        byte[] publicKeyByte = byteKey.getPublicKey();
-        byte[] privateKeyByte = byteKey.getPrivateKey();
-
-        byte[] privateKeyEncryptByte = Rsa.privateKeyEncryptByte(privateKeyByte, DATA.getBytes());
-        byte[] publicKeyDecryptByte = Rsa.publicKeyDecryptByte(publicKeyByte, privateKeyEncryptByte);
-
-        System.err.println("公钥（byte）：\t" + Arrays.toString(publicKeyByte));
-        System.err.println("公钥（String）：\t" + Base64.encodeBase64String(publicKeyByte));
-        System.err.println("私钥（byte）：\t" + Arrays.toString(privateKeyByte));
-        System.err.println("私钥（String）：\t" + Base64.encodeBase64String(privateKeyByte));
-        System.err.println("私钥加密前的数据：\t\t\t" + DATA);
-        System.err.println("私钥加密后的数据（byte）：\t" + Arrays.toString(privateKeyEncryptByte));
-        System.err.println("私钥加密后的数据（String）：\t" + Base64.encodeBase64String(privateKeyEncryptByte));
-        System.err.println("公钥解密后的数据（byte）：\t" + Arrays.toString(publicKeyDecryptByte));
-        System.err.println("公钥解密后的数据（String）：\t" + new String(publicKeyDecryptByte));
+        System.err.println("私钥签名（byte）：\t" + Arrays.toString(signByte));
+        System.err.println("私钥签名（String）：\t" + Base64.encodeBase64String(signByte));
+        System.err.println("公钥验证签名：\t\t" + publicKeyVerifySign);
         System.err.println();
     }
 
