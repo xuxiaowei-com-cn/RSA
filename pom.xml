@@ -32,14 +32,6 @@
             <version>1.15</version>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/org.sonatype.oss/oss-parent -->
-        <dependency>
-            <groupId>org.sonatype.oss</groupId>
-            <artifactId>oss-parent</artifactId>
-            <version>9</version>
-            <type>pom</type>
-        </dependency>
-
         <!-- 测试依赖 -->
         <dependency>
             <groupId>junit</groupId>
