@@ -6,7 +6,7 @@
 
     <groupId>cn.com.xuxiaowei.utils</groupId>
     <artifactId>rsa</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.1</version>
     <description>RSA工具。</description>
     <url>https://github.com/xuxiaowei-com-cn/RSA</url>
     <inceptionYear>2021</inceptionYear>
