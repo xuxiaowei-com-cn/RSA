@@ -55,6 +55,10 @@ System.err.println();
 公钥验证签名：	true
 ```
 
+### JS
+
+- [jsencrypt](https://github.com/travist/jsencrypt)
+
 ### 其他示例
 
 - 私钥加密，公钥解密，查看测试类
