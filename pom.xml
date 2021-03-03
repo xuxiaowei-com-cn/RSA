@@ -6,7 +6,7 @@
 
     <groupId>cn.com.xuxiaowei.utils</groupId>
     <artifactId>rsa</artifactId>
-    <version>0.0.1</version>
+    <version>0.0.2</version>
     <name>rsa</name>
     <description>RSA工具。</description>
     <url>https://github.com/xuxiaowei-com-cn/RSA</url>
@@ -121,6 +121,22 @@
                     <charset>UTF-8</charset>
                     <docencoding>UTF-8</docencoding>
                 </configuration>
+            </plugin>
+
+            <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-gpg-plugin -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-gpg-plugin</artifactId>
+                <version>1.6</version>
+                <executions>
+                    <execution>
+                        <id>sign-artifacts</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>sign</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
 
         </plugins>

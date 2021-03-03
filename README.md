@@ -5,7 +5,7 @@
 </p>
 
 <p align="center">
-  <a href="https://search.maven.org/#search%7Cga%7C1%7Cg%3A%22cn.com.xuxiaowei.utils%22%20AND%20a%3A%22rsa%22">
+  <a href="https://search.maven.org/artifact/cn.com.xuxiaowei.utils/rsa">
     <img alt="maven" src="https://img.shields.io/maven-central/v/cn.com.xuxiaowei.utils/rsa.svg?style=flat-square">
   </a>
 
