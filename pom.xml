@@ -6,7 +6,7 @@
 
     <groupId>cn.com.xuxiaowei.utils</groupId>
     <artifactId>rsa</artifactId>
-    <version>0.0.2</version>
+    <version>0.0.3</version>
     <name>rsa</name>
     <description>RSA 非对称性加密、签名工具</description>
     <url>https://github.com/xuxiaowei-com-cn/RSA</url>
