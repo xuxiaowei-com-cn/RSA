@@ -124,6 +124,7 @@
             </plugin>
 
             <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-gpg-plugin -->
+            <!-- 安装：https://www.gpg4win.org/thanks-for-download.html -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-gpg-plugin</artifactId>
