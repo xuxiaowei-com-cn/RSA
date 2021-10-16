@@ -125,6 +125,11 @@
 
             <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-gpg-plugin -->
             <!-- 安装：https://www.gpg4win.org/thanks-for-download.html -->
+            <!--
+                1、新建密钥对
+                2、生成密钥对副本
+                3、上传公钥至目录服务器（手动上传（需要验证邮箱）：https://keys.openpgp.org/upload/）
+             -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-gpg-plugin</artifactId>
