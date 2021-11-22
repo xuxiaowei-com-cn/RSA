@@ -63,3 +63,5 @@ System.err.println();
 
 - 私钥加密，公钥解密，查看测试类
 - String、byte 类型的秘钥加密、解密和签名示例，查看测试类
+
+### [spring-security-rsa](https://mvnrepository.com/artifact/org.springframework.security/spring-security-rsa)
