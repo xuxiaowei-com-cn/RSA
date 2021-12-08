@@ -61,23 +61,25 @@ public class Rsa {
      * 初始化秘钥对
      *
      * @return 标准密钥对
-     * @throws NoSuchAlgorithmException 算法类型异常，只能是：DiffieHellman、DSA、RSA、EC
      * @see <a href="https://docs.oracle.com/javase/8/docs/technotes/guides/security/StandardNames.html#KeyPairGenerator">KeyPairGenerator Algorithms</a>
      */
-    public static KeyPair initKeyPair() throws NoSuchAlgorithmException {
-        KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance(ALGORITHM_KEY);
-        keyPairGenerator.initialize(KEY_SIZE);
-        return keyPairGenerator.generateKeyPair();
+    public static KeyPair initKeyPair() {
+        try {
+            KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance(ALGORITHM_KEY);
+            keyPairGenerator.initialize(KEY_SIZE);
+            return keyPairGenerator.generateKeyPair();
+        } catch (NoSuchAlgorithmException e) {
+            throw new IllegalStateException(e);
+        }
     }
 
     /**
      * 初始化密钥对
      *
      * @return 字节数组数据类型的密钥对
-     * @throws NoSuchAlgorithmException 算法类型异常，只能是：DiffieHellman、DSA、RSA、EC
      * @see #initKeyPair()
      */
-    public static ByteKey getByteKey() throws NoSuchAlgorithmException {
+    public static ByteKey getByteKey() {
         KeyPair keyPair = initKeyPair();
         return new ByteKey(keyPair.getPublic(), keyPair.getPrivate());
     }
@@ -86,10 +88,9 @@ public class Rsa {
      * 初始化密钥对
      *
      * @return String 类型的密钥对
-     * @throws NoSuchAlgorithmException 算法类型异常，只能是：DiffieHellman、DSA、RSA、EC
      * @see #initKeyPair()
      */
-    public static StringKey getStringKey() throws NoSuchAlgorithmException {
+    public static StringKey getStringKey() {
         KeyPair keyPair = initKeyPair();
         return new StringKey(keyPair.getPublic(), keyPair.getPrivate());
     }
@@ -100,7 +101,6 @@ public class Rsa {
      * @param publicKeyByte 公钥，字节数组类型
      * @param dataByte      需要加密的数据，字节数组类型
      * @return 返回公钥加密数据
-     * @throws NoSuchAlgorithmException  算法类型异常，只能是：DiffieHellman、DSA、RSA、EC
      * @throws InvalidKeySpecException   使用字节数据类型的公钥根据指定算法生成公钥时异常
      *                                   可能出现的原因：
      *                                   1、公钥错误
@@ -115,8 +115,8 @@ public class Rsa {
      * @see #publicKey(byte[], byte[], int)
      * @see #privateKeyDecryptByte(byte[], byte[]) 对应解密时使用
      */
-    public static byte[] publicKeyEncryptByte(byte[] publicKeyByte, byte[] dataByte) throws NoSuchAlgorithmException,
-            InvalidKeySpecException, NoSuchPaddingException, InvalidKeyException,
+    public static byte[] publicKeyEncryptByte(byte[] publicKeyByte, byte[] dataByte) throws InvalidKeySpecException,
+            NoSuchPaddingException, InvalidKeyException,
             BadPaddingException, IllegalBlockSizeException {
         return publicKey(publicKeyByte, dataByte, Cipher.ENCRYPT_MODE);
     }
@@ -155,7 +155,6 @@ public class Rsa {
      * @param publicKey 公钥
      * @param data      需要加密的数据
      * @return 返回公钥加密数据
-     * @throws NoSuchAlgorithmException  算法类型异常，只能是：DiffieHellman、DSA、RSA、EC
      * @throws InvalidKeySpecException   使用字节数据类型的公钥根据指定算法生成公钥时异常
      *                                   可能出现的原因：
      *                                   1、公钥错误
@@ -170,8 +169,8 @@ public class Rsa {
      * @see #privateKey(byte[], byte[], int)
      * @see #privateKeyDecrypt(String, String) 对应解密时使用
      */
-    public static String publicKeyEncrypt(String publicKey, String data) throws NoSuchAlgorithmException,
-            InvalidKeySpecException, NoSuchPaddingException, InvalidKeyException,
+    public static String publicKeyEncrypt(String publicKey, String data) throws InvalidKeySpecException,
+            NoSuchPaddingException, InvalidKeyException,
             BadPaddingException, IllegalBlockSizeException {
         return Base64.encodeBase64String(publicKeyEncryptByte(Base64.decodeBase64(publicKey), data.getBytes()));
     }
@@ -239,7 +238,6 @@ public class Rsa {
      * @throws NoSuchPaddingException    本例中不出现
      *                                   使用 {@link KeyPairGenerator#getInstance(String, String)}、
      *                                   {@link KeyPairGenerator#getInstance(String, Provider)} 时可能会出现此异常
-     * @throws NoSuchAlgorithmException  算法类型异常，只能是：DiffieHellman、DSA、RSA、EC
      * @throws IllegalBlockSizeException 加密模块长度不合法
      *                                   长度限制：需要加密的数组字节数据长度 小于 (数据加密算法模块长度 / 8 - 11)
      * @throws BadPaddingException       秘钥错误
@@ -252,8 +250,7 @@ public class Rsa {
      * @see #privateKeyEncryptByte(byte[], byte[]) 对应加密时使用
      */
     public static byte[] publicKeyDecryptByte(byte[] publicKeyByte, byte[] dataByte) throws NoSuchPaddingException,
-            NoSuchAlgorithmException, IllegalBlockSizeException, BadPaddingException, InvalidKeyException,
-            InvalidKeySpecException {
+            IllegalBlockSizeException, BadPaddingException, InvalidKeyException, InvalidKeySpecException {
         return publicKey(publicKeyByte, dataByte, Cipher.DECRYPT_MODE);
     }
 
@@ -293,7 +290,6 @@ public class Rsa {
      * @throws NoSuchPaddingException    本例中不出现
      *                                   使用 {@link KeyPairGenerator#getInstance(String, String)}、
      *                                   {@link KeyPairGenerator#getInstance(String, Provider)} 时可能会出现此异常
-     * @throws NoSuchAlgorithmException  算法类型异常，只能是：DiffieHellman、DSA、RSA、EC
      * @throws IllegalBlockSizeException 加密模块长度不合法
      *                                   长度限制：需要加密的数组字节数据长度 小于 (数据加密算法模块长度 / 8 - 11)
      * @throws BadPaddingException       秘钥错误
@@ -306,8 +302,7 @@ public class Rsa {
      * @see #privateKeyEncrypt(String, String) 对应加密时使用
      */
     public static String publicKeyDecrypt(String publicKey, String data) throws NoSuchPaddingException,
-            NoSuchAlgorithmException, IllegalBlockSizeException, BadPaddingException, InvalidKeyException,
-            InvalidKeySpecException {
+            IllegalBlockSizeException, BadPaddingException, InvalidKeyException, InvalidKeySpecException {
         return new String(publicKey(Base64.decodeBase64(publicKey), Base64.decodeBase64(data), Cipher.DECRYPT_MODE));
     }
 
@@ -321,7 +316,6 @@ public class Rsa {
      *                         加密：{@link Cipher#ENCRYPT_MODE}
      *                         解密：{@link Cipher#DECRYPT_MODE}
      * @return 返回通过公钥加密的数据
-     * @throws NoSuchAlgorithmException  算法类型异常，只能是：DiffieHellman、DSA、RSA、EC
      * @throws InvalidKeySpecException   使用字节数据类型的公钥根据指定算法生成公钥时异常
      *                                   可能出现的原因：
      *                                   1、公钥错误
@@ -336,18 +330,29 @@ public class Rsa {
      *                                   长度限制：需要加密的数组字节数据长度 小于 (数据加密算法模块长度 / 8 - 11)
      * @see <a href="https://docs.oracle.com/javase/8/docs//technotes/guides/security/StandardNames.html#KeyFactory">KeyFactory Algorithms</a>
      */
-    private static byte[] publicKey(byte[] publicKeyByte, byte[] dataByte, int encryptOrDecrypt) throws NoSuchAlgorithmException,
+    private static byte[] publicKey(byte[] publicKeyByte, byte[] dataByte, int encryptOrDecrypt) throws
             InvalidKeySpecException, NoSuchPaddingException, InvalidKeyException,
             BadPaddingException, IllegalBlockSizeException {
 
         X509EncodedKeySpec x509KeySpec = new X509EncodedKeySpec(publicKeyByte);
 
-        KeyFactory keyFactory = KeyFactory.getInstance(ALGORITHM_KEY);
+        KeyFactory keyFactory;
+        try {
+            keyFactory = KeyFactory.getInstance(ALGORITHM_KEY);
+        } catch (NoSuchAlgorithmException e) {
+            throw new IllegalStateException(e);
+        }
 
         Key publicKey = keyFactory.generatePublic(x509KeySpec);
         String algorithmPublicKey = keyFactory.getAlgorithm();
 
-        Cipher cipherPublicKey = Cipher.getInstance(algorithmPublicKey);
+        Cipher cipherPublicKey;
+        try {
+            cipherPublicKey = Cipher.getInstance(algorithmPublicKey);
+        } catch (NoSuchAlgorithmException e) {
+            throw new IllegalStateException(e);
+        }
+
         cipherPublicKey.init(encryptOrDecrypt, publicKey);
 
         return cipherPublicKey.doFinal(dataByte);
