@@ -116,11 +116,9 @@ public class Rsa {
      * @see #privateKeyDecryptByte(byte[], byte[]) 对应解密时使用
      */
     public static byte[] publicKeyEncryptByte(byte[] publicKeyByte, byte[] dataByte) throws InvalidKeySpecException,
-            NoSuchPaddingException, InvalidKeyException,
-            BadPaddingException, IllegalBlockSizeException {
+            NoSuchPaddingException, InvalidKeyException, BadPaddingException, IllegalBlockSizeException {
         return publicKey(publicKeyByte, dataByte, Cipher.ENCRYPT_MODE);
     }
-
 
     /**
      * 通过私钥解密数据
@@ -143,8 +141,7 @@ public class Rsa {
      * @see #publicKeyEncryptByte(byte[], byte[]) 对应加密时使用
      */
     public static byte[] privateKeyDecryptByte(byte[] privateKeyByte, byte[] dataByte) throws InvalidKeySpecException,
-            NoSuchPaddingException, InvalidKeyException, BadPaddingException,
-            IllegalBlockSizeException {
+            NoSuchPaddingException, InvalidKeyException, BadPaddingException, IllegalBlockSizeException {
         return privateKey(privateKeyByte, dataByte, Cipher.DECRYPT_MODE);
     }
 
@@ -169,8 +166,7 @@ public class Rsa {
      * @see #privateKeyDecrypt(String, String) 对应解密时使用
      */
     public static String publicKeyEncrypt(String publicKey, String data) throws InvalidKeySpecException,
-            NoSuchPaddingException, InvalidKeyException,
-            BadPaddingException, IllegalBlockSizeException {
+            NoSuchPaddingException, InvalidKeyException, BadPaddingException, IllegalBlockSizeException {
         return Base64.encodeBase64String(publicKeyEncryptByte(Base64.decodeBase64(publicKey), data.getBytes()));
     }
 
@@ -195,8 +191,7 @@ public class Rsa {
      * @see #publicKeyEncrypt(String, String) 对应加密时使用
      */
     public static String privateKeyDecrypt(String privateKey, String data) throws InvalidKeySpecException,
-            NoSuchPaddingException, InvalidKeyException, BadPaddingException,
-            IllegalBlockSizeException {
+            NoSuchPaddingException, InvalidKeyException, BadPaddingException, IllegalBlockSizeException {
         return new String(privateKeyDecryptByte(Base64.decodeBase64(privateKey), Base64.decodeBase64(data)));
     }
 
@@ -300,7 +295,6 @@ public class Rsa {
         return new String(publicKey(Base64.decodeBase64(publicKey), Base64.decodeBase64(data), Cipher.DECRYPT_MODE));
     }
 
-
     /**
      * 通过公钥加密、解密数据
      *
@@ -325,8 +319,7 @@ public class Rsa {
      * @see <a href="https://docs.oracle.com/javase/8/docs//technotes/guides/security/StandardNames.html#KeyFactory">KeyFactory Algorithms</a>
      */
     private static byte[] publicKey(byte[] publicKeyByte, byte[] dataByte, int encryptOrDecrypt) throws
-            InvalidKeySpecException, NoSuchPaddingException, InvalidKeyException,
-            BadPaddingException, IllegalBlockSizeException {
+            InvalidKeySpecException, NoSuchPaddingException, InvalidKeyException, BadPaddingException, IllegalBlockSizeException {
 
         X509EncodedKeySpec x509KeySpec = new X509EncodedKeySpec(publicKeyByte);
 

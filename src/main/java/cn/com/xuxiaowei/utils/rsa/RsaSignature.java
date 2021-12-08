@@ -52,8 +52,8 @@ public class RsaSignature {
      * @see #signByte(byte[], byte[])
      * @see #verifySign(String, String, String) 对应验证签名时使用
      */
-    public static String sign(String privateKeyByte, String data) throws InvalidKeySpecException,
-            InvalidKeyException, SignatureException {
+    public static String sign(String privateKeyByte, String data) throws InvalidKeySpecException, InvalidKeyException,
+            SignatureException {
         return Base64.encodeBase64String(signByte(Base64.decodeBase64(privateKeyByte), Base64.decodeBase64(data)));
     }
 
@@ -73,8 +73,8 @@ public class RsaSignature {
      * @see #verifySignByte(byte[], byte[], byte[])
      * @see #sign(String, String) 对应签名时使用
      */
-    public static boolean verifySign(String publicKey, String data, String signByte)
-            throws InvalidKeySpecException, InvalidKeyException, SignatureException {
+    public static boolean verifySign(String publicKey, String data, String signByte) throws InvalidKeySpecException,
+            InvalidKeyException, SignatureException {
         return verifySignByte(Base64.decodeBase64(publicKey), Base64.decodeBase64(data), Base64.decodeBase64(signByte));
     }
 
