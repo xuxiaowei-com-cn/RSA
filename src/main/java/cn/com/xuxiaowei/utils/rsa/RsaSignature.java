@@ -43,18 +43,17 @@ public class RsaSignature {
      * @param privateKeyByte 私钥
      * @param data           需要签名的加密数据
      * @return 返回私钥签名
-     * @throws NoSuchAlgorithmException 算法类型异常，只能是：DiffieHellman、DSA、RSA、EC
-     * @throws InvalidKeySpecException  使用字节数据类型的私钥根据指定算法生成私钥时异常
-     *                                  可能出现的原因：
-     *                                  1、私钥错误
-     *                                  2、私钥与算法不匹配
-     * @throws InvalidKeyException      秘钥无效、秘钥与秘钥类型不匹配
-     * @throws SignatureException       签名异常
+     * @throws InvalidKeySpecException 使用字节数据类型的私钥根据指定算法生成私钥时异常
+     *                                 可能出现的原因：
+     *                                 1、私钥错误
+     *                                 2、私钥与算法不匹配
+     * @throws InvalidKeyException     秘钥无效、秘钥与秘钥类型不匹配
+     * @throws SignatureException      签名异常
      * @see #signByte(byte[], byte[])
      * @see #verifySign(String, String, String) 对应验证签名时使用
      */
-    public static String sign(String privateKeyByte, String data) throws NoSuchAlgorithmException,
-            InvalidKeySpecException, InvalidKeyException, SignatureException {
+    public static String sign(String privateKeyByte, String data) throws InvalidKeySpecException,
+            InvalidKeyException, SignatureException {
         return Base64.encodeBase64String(signByte(Base64.decodeBase64(privateKeyByte), Base64.decodeBase64(data)));
     }
 
@@ -65,18 +64,17 @@ public class RsaSignature {
      * @param data      需要验证签名的加密数据
      * @param signByte  签名，字节数组类型
      * @return 返回验证签名结果
-     * @throws NoSuchAlgorithmException 算法类型异常，只能是：DiffieHellman、DSA、RSA、EC
-     * @throws InvalidKeySpecException  使用字节数据类型的私钥根据指定算法生成私钥时异常
-     *                                  可能出现的原因：
-     *                                  1、私钥错误
-     *                                  2、私钥与算法不匹配
-     * @throws InvalidKeyException      秘钥无效、秘钥与秘钥类型不匹配
-     * @throws SignatureException       签名异常
+     * @throws InvalidKeySpecException 使用字节数据类型的私钥根据指定算法生成私钥时异常
+     *                                 可能出现的原因：
+     *                                 1、私钥错误
+     *                                 2、私钥与算法不匹配
+     * @throws InvalidKeyException     秘钥无效、秘钥与秘钥类型不匹配
+     * @throws SignatureException      签名异常
      * @see #verifySignByte(byte[], byte[], byte[])
      * @see #sign(String, String) 对应签名时使用
      */
     public static boolean verifySign(String publicKey, String data, String signByte)
-            throws NoSuchAlgorithmException, InvalidKeySpecException, InvalidKeyException, SignatureException {
+            throws InvalidKeySpecException, InvalidKeyException, SignatureException {
         return verifySignByte(Base64.decodeBase64(publicKey), Base64.decodeBase64(data), Base64.decodeBase64(signByte));
     }
 
@@ -86,23 +84,32 @@ public class RsaSignature {
      * @param privateKeyByte 私钥，字节数组类型
      * @param data           需要签名的加密数据，字节数组类型
      * @return 返回私钥签名，字节数组类型
-     * @throws NoSuchAlgorithmException 算法类型异常，只能是：DiffieHellman、DSA、RSA、EC
-     * @throws InvalidKeySpecException  使用字节数据类型的私钥根据指定算法生成私钥时异常
-     *                                  可能出现的原因：
-     *                                  1、私钥错误
-     *                                  2、私钥与算法不匹配
-     * @throws InvalidKeyException      秘钥无效、秘钥与秘钥类型不匹配
-     * @throws SignatureException       签名异常
+     * @throws InvalidKeySpecException 使用字节数据类型的私钥根据指定算法生成私钥时异常
+     *                                 可能出现的原因：
+     *                                 1、私钥错误
+     *                                 2、私钥与算法不匹配
+     * @throws InvalidKeyException     秘钥无效、秘钥与秘钥类型不匹配
+     * @throws SignatureException      签名异常
      * @see #verifySignByte(byte[], byte[], byte[]) 对应验证签名时使用
      */
-    public static byte[] signByte(byte[] privateKeyByte, byte[] data) throws NoSuchAlgorithmException,
-            InvalidKeySpecException, InvalidKeyException, SignatureException {
+    public static byte[] signByte(byte[] privateKeyByte, byte[] data) throws InvalidKeySpecException,
+            InvalidKeyException, SignatureException {
 
         PKCS8EncodedKeySpec pkcs8KeySpec = new PKCS8EncodedKeySpec(privateKeyByte);
 
-        KeyFactory keyFactory = KeyFactory.getInstance(Rsa.ALGORITHM_KEY);
+        Signature signature;
+        try {
+            signature = Signature.getInstance(ALGORITHM_SIGNATURE);
+        } catch (NoSuchAlgorithmException e) {
+            throw new IllegalStateException(e);
+        }
 
-        Signature signature = Signature.getInstance(ALGORITHM_SIGNATURE);
+        KeyFactory keyFactory;
+        try {
+            keyFactory = KeyFactory.getInstance(Rsa.ALGORITHM_KEY);
+        } catch (NoSuchAlgorithmException e) {
+            throw new IllegalStateException(e);
+        }
 
         PrivateKey priKey = keyFactory.generatePrivate(pkcs8KeySpec);
         signature.initSign(priKey);
@@ -118,23 +125,32 @@ public class RsaSignature {
      * @param data          需要验证签名的加密数据，字节数组类型
      * @param signByte      签名，字节数组类型
      * @return 返回验证签名结果
-     * @throws NoSuchAlgorithmException 算法类型异常，只能是：DiffieHellman、DSA、RSA、EC
-     * @throws InvalidKeySpecException  使用字节数据类型的公钥根据指定算法生成公钥时异常
-     *                                  可能出现的原因：
-     *                                  1、公钥错误
-     *                                  2、公钥与算法不匹配
-     * @throws InvalidKeyException      秘钥无效、秘钥与秘钥类型不匹配
-     * @throws SignatureException       签名异常
+     * @throws InvalidKeySpecException 使用字节数据类型的公钥根据指定算法生成公钥时异常
+     *                                 可能出现的原因：
+     *                                 1、公钥错误
+     *                                 2、公钥与算法不匹配
+     * @throws InvalidKeyException     秘钥无效、秘钥与秘钥类型不匹配
+     * @throws SignatureException      签名异常
      * @see #signByte(byte[], byte[]) 对应签名时使用
      */
     public static boolean verifySignByte(byte[] publicKeyByte, byte[] data, byte[] signByte)
-            throws NoSuchAlgorithmException, InvalidKeySpecException, InvalidKeyException, SignatureException {
+            throws InvalidKeySpecException, InvalidKeyException, SignatureException {
 
         X509EncodedKeySpec keySpec = new X509EncodedKeySpec(publicKeyByte);
 
-        KeyFactory keyFactory = KeyFactory.getInstance(Rsa.ALGORITHM_KEY);
+        KeyFactory keyFactory;
+        try {
+            keyFactory = KeyFactory.getInstance(Rsa.ALGORITHM_KEY);
+        } catch (NoSuchAlgorithmException e) {
+            throw new IllegalStateException(e);
+        }
 
-        Signature signature = Signature.getInstance(ALGORITHM_SIGNATURE);
+        Signature signature;
+        try {
+            signature = Signature.getInstance(ALGORITHM_SIGNATURE);
+        } catch (NoSuchAlgorithmException e) {
+            throw new IllegalStateException(e);
+        }
 
         PublicKey pubKey = keyFactory.generatePublic(keySpec);
         signature.initVerify(pubKey);
